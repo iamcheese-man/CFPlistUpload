@@ -1,0 +1,85 @@
+name = “plist-uploader”
+main = “plist-uploader.js”
+compatibility_date = “2024-01-01”
+
+# Account details (update with your values)
+
+# account_id = “your-account-id-here”
+
+# workers_dev = true
+
+# Routes (optional - uncomment and update with your domain)
+
+# routes = [
+
+# { pattern = “plist.yourdomain.com/*”, zone_name = “yourdomain.com” }
+
+# ]
+
+# Environment variables (optional)
+
+[vars]
+
+# MAX_FILE_SIZE = 10485760  # 10MB in bytes
+
+# EXPIRY_TIME = 3600000      # 1 hour in milliseconds
+
+# Development environment
+
+[env.development]
+name = “plist-uploader-dev”
+workers_dev = true
+
+# Staging environment
+
+[env.staging]
+name = “plist-uploader-staging”
+workers_dev = true
+
+# Production environment
+
+[env.production]
+name = “plist-uploader-prod”
+workers_dev = false
+
+# Optional: Use KV for persistent storage instead of in-memory
+
+# [[kv_namespaces]]
+
+# binding = “PLIST_STORAGE”
+
+# id = “your-kv-namespace-id”
+
+# preview_id = “your-preview-kv-namespace-id”
+
+# Optional: Analytics Engine for tracking
+
+# [[analytics_engine_datasets]]
+
+# binding = “ANALYTICS”
+
+# Limits
+
+[limits]
+
+# Maximum CPU time per request (milliseconds)
+
+cpu_ms = 50
+
+# Build configuration
+
+[build]
+command = “”
+
+# Observability
+
+[observability]
+enabled = true
+
+# Triggers (custom domains)
+
+# [[triggers.routes]]
+
+# pattern = “plist.example.com/*”
+
+# zone_name = “example.com”
