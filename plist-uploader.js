@@ -206,7 +206,7 @@ return jsonError("File expired", 410);
 return new Response(file.content, {
 headers: {
 "Content-Type": file.contentType,
-"Content-Disposition": ‘attachment; filename="’ + file.filename + ‘"’,
+"Content-Disposition": 'attachment; filename="' + file.filename + '"',
 "Content-Length": file.size.toString(),
 …getCORSHeaders(),
 },
