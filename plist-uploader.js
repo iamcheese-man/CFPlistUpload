@@ -210,7 +210,7 @@ const corsHeaders = getCORSHeaders();
 return new Response(file.content, {
 headers: {
 "Content-Type": file.contentType,
-"Content-Disposition": 'attachment; filename="' + file.filename + '"',
+"Content-Disposition": ‘attachment; filename="’ + file.filename + ‘"’,
 "Content-Length": file.size.toString(),
 "Access-Control-Allow-Origin": corsHeaders["Access-Control-Allow-Origin"],
 "Access-Control-Allow-Methods": corsHeaders["Access-Control-Allow-Methods"],
@@ -406,9 +406,10 @@ return ’<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name=
 
 function getViewHTML(fileId, filename, content, size, timeLeft) {
 const escapedContent = content
-.replace(/&/g, "&")
-.replace(/</g, "<")
-.replace(/>/g, ">");
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
+
 
 const minutes = Math.floor(timeLeft / 1000 / 60);
 const seconds = Math.floor((timeLeft / 1000) % 60);
