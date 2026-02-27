@@ -210,7 +210,7 @@ const corsHeaders = getCORSHeaders();
 return new Response(file.content, {
 headers: {
 "Content-Type": file.contentType,
-"Content-Disposition": ‘attachment; filename="’ + file.filename + ‘"’,
+"Content-Disposition": 'attachment; filename="' + file.filename + '"',
 "Content-Length": file.size.toString(),
 "Access-Control-Allow-Origin": corsHeaders["Access-Control-Allow-Origin"],
 "Access-Control-Allow-Methods": corsHeaders["Access-Control-Allow-Methods"],
