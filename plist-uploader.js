@@ -135,6 +135,7 @@ const origin = new URL(req.url).origin;
 const viewUrl = origin + "/view/" + fileId;
 
 if (accept.includes("application/json")) {
+  const corsHeaders = getCORSHeaders();
   return new Response(JSON.stringify({
     success: true,
     message: "Your file is hosted at " + viewUrl,
@@ -151,7 +152,9 @@ if (accept.includes("application/json")) {
   }, null, 2), {
     headers: {
       "Content-Type": "application/json",
-      ...getCORSHeaders(),
+      "Access-Control-Allow-Origin": corsHeaders["Access-Control-Allow-Origin"],
+      "Access-Control-Allow-Methods": corsHeaders["Access-Control-Allow-Methods"],
+      "Access-Control-Allow-Headers": corsHeaders["Access-Control-Allow-Headers"],
     },
   });
 } else {
@@ -203,12 +206,15 @@ fileStorage.delete(fileId);
 return jsonError("File expired", 410);
 }
 
+const corsHeaders = getCORSHeaders();
 return new Response(file.content, {
 headers: {
 "Content-Type": file.contentType,
-"Content-Disposition": 'attachment; filename="' + file.filename + '"',
+"Content-Disposition": ‘attachment; filename="’ + file.filename + ‘"’,
 "Content-Length": file.size.toString(),
-…getCORSHeaders(),
+"Access-Control-Allow-Origin": corsHeaders["Access-Control-Allow-Origin"],
+"Access-Control-Allow-Methods": corsHeaders["Access-Control-Allow-Methods"],
+"Access-Control-Allow-Headers": corsHeaders["Access-Control-Allow-Headers"],
 },
 });
 }
@@ -224,6 +230,7 @@ fileStorage.delete(fileId);
 
 console.log("File deleted: " + fileId + " (" + file.filename + ")");
 
+const corsHeaders = getCORSHeaders();
 return new Response(JSON.stringify({
 success: true,
 message: "File deleted successfully",
@@ -231,7 +238,9 @@ fileId: fileId,
 }), {
 headers: {
 "Content-Type": "application/json",
-…getCORSHeaders(),
+"Access-Control-Allow-Origin": corsHeaders["Access-Control-Allow-Origin"],
+"Access-Control-Allow-Methods": corsHeaders["Access-Control-Allow-Methods"],
+"Access-Control-Allow-Headers": corsHeaders["Access-Control-Allow-Headers"],
 },
 });
 }
@@ -249,6 +258,7 @@ return jsonError("File expired", 410);
 }
 
 const timeLeft = getTimeLeft(file);
+const corsHeaders = getCORSHeaders();
 
 return new Response(JSON.stringify({
 fileId: fileId,
@@ -262,7 +272,9 @@ timeLeftMinutes: Math.floor(timeLeft / 1000 / 60),
 }, null, 2), {
 headers: {
 "Content-Type": "application/json",
-…getCORSHeaders(),
+"Access-Control-Allow-Origin": corsHeaders["Access-Control-Allow-Origin"],
+"Access-Control-Allow-Methods": corsHeaders["Access-Control-Allow-Methods"],
+"Access-Control-Allow-Headers": corsHeaders["Access-Control-Allow-Headers"],
 },
 });
 }
@@ -277,6 +289,7 @@ expiresAt: new Date(file.uploadTime + CONFIG.EXPIRY_TIME).toISOString(),
 expired: isExpired(file),
 }));
 
+const corsHeaders = getCORSHeaders();
 return new Response(JSON.stringify({
 totalFiles: files.length,
 maxStorage: CONFIG.MAX_STORAGE,
@@ -284,7 +297,9 @@ files: files,
 }, null, 2), {
 headers: {
 "Content-Type": "application/json",
-…getCORSHeaders(),
+"Access-Control-Allow-Origin": corsHeaders["Access-Control-Allow-Origin"],
+"Access-Control-Allow-Methods": corsHeaders["Access-Control-Allow-Methods"],
+"Access-Control-Allow-Headers": corsHeaders["Access-Control-Allow-Headers"],
 },
 });
 }
@@ -294,6 +309,7 @@ const files = Array.from(fileStorage.values());
 const totalSize = files.reduce((sum, f) => sum + f.size, 0);
 const expired = files.filter(f => isExpired(f)).length;
 
+const corsHeaders = getCORSHeaders();
 return new Response(JSON.stringify({
 totalFiles: fileStorage.size,
 maxStorage: CONFIG.MAX_STORAGE,
@@ -304,7 +320,9 @@ expiryTime: (CONFIG.EXPIRY_TIME / 1000 / 60) + " minutes",
 }, null, 2), {
 headers: {
 "Content-Type": "application/json",
-…getCORSHeaders(),
+"Access-Control-Allow-Origin": corsHeaders["Access-Control-Allow-Origin"],
+"Access-Control-Allow-Methods": corsHeaders["Access-Control-Allow-Methods"],
+"Access-Control-Allow-Headers": corsHeaders["Access-Control-Allow-Headers"],
 },
 });
 }
@@ -367,6 +385,7 @@ return {
 
 function jsonError(message, status) {
 if (status === undefined) status = 400;
+const corsHeaders = getCORSHeaders();
 return new Response(JSON.stringify({
 error: message,
 status: status,
@@ -374,7 +393,9 @@ status: status,
 status: status,
 headers: {
 "Content-Type": "application/json",
-…getCORSHeaders(),
+"Access-Control-Allow-Origin": corsHeaders["Access-Control-Allow-Origin"],
+"Access-Control-Allow-Methods": corsHeaders["Access-Control-Allow-Methods"],
+"Access-Control-Allow-Headers": corsHeaders["Access-Control-Allow-Headers"],
 },
 });
 }
